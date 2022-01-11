@@ -18,7 +18,7 @@ from calibration import check_phasecal, rebuild_wave, find_phasecal
 from textwrap import dedent
 from common import collect_data, readadc, recover_influx_container
 from shutil import copyfile
-
+import RPi.GPIO as GPIO # for tariff detection
 
 
 # Tuning Variables
@@ -41,6 +41,13 @@ ct3_accuracy_factor         = accuracy_calibration['ct3']
 ct4_accuracy_factor         = accuracy_calibration['ct4']
 ct5_accuracy_factor         = accuracy_calibration['ct5']
 AC_voltage_accuracy_factor  = accuracy_calibration['AC']
+
+# tariff detection set-up
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(17, GPIO.IN, pull_up_down = GPIO.PUD_UP) # detects night rate power via voltage connected to GPIO 17 
+
+
 
 
 
@@ -74,6 +81,12 @@ def get_board_voltage():
     avg_reading = sum(samples) / len(samples)
     board_voltage = (avg_reading / 1024) * 3.31 * 2    
     return board_voltage
+
+def get_tariff():
+    # Check status of GPIO 17: if LOW, the night rate is active
+    if GPIO.input(17): tariff = day_rate
+    else: tariff = night_rate
+    return tariff
 
 # Phase corrected power calculation
 def calculate_power(samples, board_voltage):
@@ -411,6 +424,7 @@ def run_main():
     
     while True:        
         try:
+            current_tariff = get_tariff()
             board_voltage = get_board_voltage()    
             samples = collect_data(2000)
             poll_time = samples['time']            
@@ -530,6 +544,7 @@ def run_main():
                     poll_time,
                     i,
                     rms_voltages,
+                    current_tariff,
                     )
                 solar_power_values = dict(power=[], pf=[], current=[])
                 home_load_values = dict(power=[], pf=[], current=[])
