@@ -47,10 +47,6 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(17, GPIO.IN, pull_up_down = GPIO.PUD_UP) # detects night rate power via voltage connected to GPIO 17 
 
-
-
-
-
 def dump_data(dump_type, samples):
     speed_kHz = spi.max_speed_hz / 1000
     now = datetime.now().stfrtime('%m-%d-%Y-%H-%M')
