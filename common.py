@@ -16,8 +16,9 @@ spi.max_speed_hz = 1750000          # Changing this value will require you to ad
 
 def readadc(adcnum):
     # read SPI data from the MCP3008, 8 channels in total
-    r = spi.xfer2([1, 8 + adcnum << 4, 0])
-    data = ((r[1] & 3) << 8) + r[2]
+    r = spi.xfer2([1, 8 + adcnum << 4, 0])# xfer2(list of values[, speed_hz, delay_usec, bits_per_word])
+   # r = [0,2,255] # dummy value of 511 (half scale) for testing 
+    data = ((r[1] & 3) << 8) + r[2] # ANDs result 1 (MSB) with 00000011 and shifts it 8 bits left, appends result 2 (LSB) (producing a ten bit result)
     return data
 
 def collect_data(numSamples):
