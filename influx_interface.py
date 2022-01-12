@@ -25,6 +25,7 @@ class Point():
         if p_type == 'home_load':
             self.power   = kwargs['power']
             self.current = kwargs['current']
+            self.tariff  = kwargs['tariff']
             self.p_type  = p_type
             self.time    = kwargs['time']
         
