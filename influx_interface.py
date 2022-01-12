@@ -84,7 +84,8 @@ class Point():
                 "measurement": 'home_load',
                 "fields" : {
                     "current" : self.current,
-                    "power": self.power
+                    "power": self.power,
+                    "tariff" : self.tariff,
                 },
                 "time" : self.time
             }
