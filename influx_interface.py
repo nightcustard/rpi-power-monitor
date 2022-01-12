@@ -199,7 +199,7 @@ def write_to_influx(solar_power_values, home_load_values, net_power_values, ct0_
     avg_voltage = sum(voltages) / length
 
     # Create Points
-    home_load = Point('home_load', power=avg_home_power, current=avg_home_current, time=poll_time)
+    home_load = Point('home_load', power=avg_home_power, current=avg_home_current, tariff=current_tariff, time=poll_time)
     solar = Point('solar', power=avg_solar_power, current=avg_solar_current, pf=avg_solar_pf, time=poll_time)
     net = Point('net', power=avg_net_power, current=avg_net_current, time=poll_time)
     ct0 = Point('ct', power=ct0_avg_power, current=ct0_avg_current, pf=ct0_avg_pf, tariff=current_tariff, time=poll_time, num=0)
