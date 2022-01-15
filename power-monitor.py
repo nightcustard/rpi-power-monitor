@@ -18,7 +18,7 @@ from calibration import check_phasecal, rebuild_wave, find_phasecal
 from textwrap import dedent
 from common import collect_data, readadc, recover_influx_container
 from shutil import copyfile
-import RPi.GPIO as GPIO # for tariff detection
+import RPi.GPIO as GPIO # for tariff detection (NOTE: requires 'pip install RPi.GPIO' to install the package)
 
 
 # Tuning Variables
