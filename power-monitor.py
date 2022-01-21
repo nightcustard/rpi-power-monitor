@@ -489,7 +489,7 @@ def run_main():
            # residual_current = grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current - solar_current
             residual_current = grid_0_current -  grid_1_current - grid_2_current - grid_3_current - grid_4_current - grid_5_current
            # netresidual_load= grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current + solar_current
-            net_residual_load = residual_current
+            net_current = residual_current
 
             if net_power < 0:
                 current_status = "Producing"                                
@@ -531,7 +531,7 @@ def run_main():
             
             else:   # Calculate the average, send the result to InfluxDB, and reset the dictionaries for the next 2 sets of data.
                 infl.write_to_influx(
-                residual_load_power_values,
+                    solar_power_values,
                     residual_load_values,
                     net_power_values, 
                     ct0_dict,
