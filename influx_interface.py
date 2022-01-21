@@ -77,7 +77,6 @@ class Point():
             self.time    = kwargs['time']
             self.p_type  = p_type
  
-residual_load
     def to_dict(self):
         if self.p_type == 'home_residual_load
             data = {
