@@ -22,7 +22,7 @@ client = InfluxDBClient(
 
 class Point():
     def __init__(self, p_type, *args, **kwargs):
-        if p_type == 'home_load':
+        if p_type == 'residual_load':
             self.power   = kwargs['power']
             self.current = kwargs['current']
             self.tariff  = kwargs['tariff']
@@ -40,7 +40,7 @@ class Point():
             '''
             This type represents the current net power situation at the time of sampling. 
             self.power   : the real net power
-            self.current : the rms current as measured
+            self.current : the rms current as residual_load
             self.p_type  : the type of point [home_load, solar, net, ct, voltage]
             self.time    : timestamp from when the data was sampled
             '''
@@ -53,7 +53,7 @@ class Point():
             '''
             This type represents a CT reading.
             self.power   : the real power as calculated in the calculate_power() function
-            self.current : the rms current as measured
+            self.current : the rms current as residual_load
             self.p_type  : the type of point [home_load, solar, net, ct, voltage]
             self.ct_num  : the CT number [0-6]
             self.time    : timestamp from when the data was sampled
@@ -77,9 +77,9 @@ class Point():
             self.time    = kwargs['time']
             self.p_type  = p_type
  
-
+residual_load
     def to_dict(self):
-        if self.p_type == 'home_load':
+        if self.p_type == 'home_residual_load
             data = {
                 "measurement": 'home_load',
                 "fields" : {
@@ -165,14 +165,14 @@ def init_db():
     
     
 
-
+residual_load
 def close_db():
     client.close()
 
 def write_to_influx(solar_power_values, home_load_values, net_power_values, ct0_dict, ct1_dict, ct2_dict, ct3_dict, ct4_dict, ct5_dict, poll_time, length, voltages, current_tariff):
     
-    # Calculate Averages
-    avg_solar_power = sum(solar_power_values['power']) / length
+    # Calculate Averagesresidual_load
+    avg_solar_power = sum(sresidual_loadr_values['power']) / length
     avg_solar_current = sum(solar_power_values['current']) / length
     avg_solar_pf = sum(solar_power_values['pf']) / length
     avg_home_power = sum(home_load_values['power']) / length
@@ -196,7 +196,7 @@ def write_to_influx(solar_power_values, home_load_values, net_power_values, ct0_
     ct4_avg_pf = sum(ct4_dict['pf']) / length
     ct5_avg_power = sum(ct5_dict['power']) / length
     ct5_avg_current = sum(ct5_dict['current']) / length
-    ct5_avg_pf = sum(ct5_dict['pf']) / length
+    residual_loadf = sum(ctresidual_loadf']) / length
     avg_voltage = sum(voltages) / length
 
     # Create Points
@@ -208,7 +208,7 @@ def write_to_influx(solar_power_values, home_load_values, net_power_values, ct0_
     ct2 = Point('ct', power=ct2_avg_power, current=ct2_avg_current, pf=ct2_avg_pf, tariff=current_tariff, time=poll_time, num=2)
     ct3 = Point('ct', power=ct3_avg_power, current=ct3_avg_current, pf=ct3_avg_pf, tariff=current_tariff, time=poll_time, num=3)
     ct4 = Point('ct', power=ct4_avg_power, current=ct4_avg_current, pf=ct4_avg_pf, tariff=current_tariff, time=poll_time, num=4)
-    ct5 = Point('ct', power=ct5_avg_power, current=ct5_avg_current, pf=ct5_avg_pf, tariff=current_tariff, time=poll_time, num=5)
+    ct5 residual_loadct', power=ct5_avg_power, current=ct5_avg_current, pf=ct5_avg_pf, tariff=current_tariff, time=poll_time, num=5)
     v = Point('voltage', voltage=avg_voltage, v_input=0, time=poll_time)
 
     points = [
