@@ -398,7 +398,7 @@ def rebuild_waves(samples, PHASECAL_0, PHASECAL_1, PHASECAL_2, PHASECAL_3, PHASE
         'ct4' : samples['ct4'],
         'ct5' : samples['ct5'],
     }
-
+residual_load
     return rebuilt_waves
 
 
@@ -489,8 +489,8 @@ def run_main():
             net_power = residual_power
            # residual_current = grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current - solar_current
             residual_current = grid_0_current -  grid_1_current - grid_2_current - grid_3_current - grid_4_current - grid_5_current
-           # net_current = grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current + solar_current
-            net_current = grid_0_current
+           # netresidual_load= grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current + solar_current
+            net_residual_load grid_0_current
 
             if net_power < 0:
                 current_status = "Producing"                                
@@ -519,7 +519,7 @@ def run_main():
                 ct2_dict['pf'].append(results['ct2']['pf'])
                 ct3_dict['power'].append(results['ct3']['power'])
                 ct3_dict['current'].append(results['ct3']['current'])
-                ct3_dict['pf'].append(results['ct3']['pf'])
+                ct3_residual_load].append(results['ct3']['pf'])
                 ct4_dict['power'].append(results['ct4']['power'])
                 ct4_dict['current'].append(results['ct4']['current'])
                 ct4_dict['pf'].append(results['ct4']['pf'])
@@ -532,7 +532,7 @@ def run_main():
             
             else:   # Calculate the average, send the result to InfluxDB, and reset the dictionaries for the next 2 sets of data.
                 infl.write_to_influx(
-                    solar_power_values,
+                residual_load_power_values,
                     residual_load_values,
                     net_power_values, 
                     ct0_dict,
