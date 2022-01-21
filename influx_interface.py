@@ -171,7 +171,7 @@ def close_db():
 def write_to_influx(solar_power_values, residual_load_values, net_power_values, ct0_dict, ct1_dict, ct2_dict, ct3_dict, ct4_dict, ct5_dict, poll_time, length, voltages, current_tariff):
     
     # Calculate Averagesresidual_load
-    avg_solar_power = sum(sresidual_loadr_values['power']) / length
+    avg_solar_power = sum(solar_power_values['power']) / length
     avg_solar_current = sum(solar_power_values['current']) / length
     avg_solar_pf = sum(solar_power_values['pf']) / length
     avg_home_power = sum(residual_load_values['power']) / length
