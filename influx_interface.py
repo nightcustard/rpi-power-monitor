@@ -22,7 +22,7 @@ client = InfluxDBClient(
 
 class Point():
     def __init__(self, p_type, *args, **kwargs):
-        if p_type == 'home_load':
+        if p_type == 'ct_delta_load':
             self.power   = kwargs['power']
             self.current = kwargs['current']
             self.tariff  = kwargs['tariff']
@@ -40,8 +40,8 @@ class Point():
             '''
             This type represents the current net power situation at the time of sampling. 
             self.power   : the real net power
-            self.current : the rms current as home_load
-            self.p_type  : the type of point [home_load, solar, net, ct, voltage]
+            self.current : the rms current as ct_delta_load
+            self.p_type  : the type of point [ct_delta_load, solar, net, ct, voltage]
             self.time    : timestamp from when the data was sampled
             '''
             self.power   = kwargs['power']
@@ -53,8 +53,8 @@ class Point():
             '''
             This type represents a CT reading.
             self.power   : the real power as calculated in the calculate_power() function
-            self.current : the rms current as home_load
-            self.p_type  : the type of point [home_load, solar, net, ct, voltage]
+            self.current : the rms current as ct_delta_load
+            self.p_type  : the type of point [ct_delta_load, solar, net, ct, voltage]
             self.ct_num  : the CT number [0-6]
             self.time    : timestamp from when the data was sampled
             '''
@@ -78,9 +78,9 @@ class Point():
             self.p_type  = p_type
  
     def to_dict(self):
-        if self.p_type == 'home_load':
+        if self.p_type == 'ct_delta_load':
             data = {
-                "measurement": 'home_load',
+                "measurement": 'ct_delta_load',
                 "fields" : {
                     "current" : self.current,
                     "power": self.power,
@@ -168,14 +168,14 @@ def init_db():
 def close_db():
     client.close()
 
-def write_to_influx(solar_power_values, home_load_values, net_power_values, ct0_dict, ct1_dict, ct2_dict, ct3_dict, ct4_dict, ct5_dict, poll_time, length, voltages, current_tariff):
+def write_to_influx(solar_power_values, ct_delta_load_values, net_power_values, ct0_dict, ct1_dict, ct2_dict, ct3_dict, ct4_dict, ct5_dict, poll_time, length, voltages, current_tariff):
     
-    # Calculate Averageshome_load
+    # Calculate Averages
     avg_solar_power = sum(solar_power_values['power']) / length
     avg_solar_current = sum(solar_power_values['current']) / length
     avg_solar_pf = sum(solar_power_values['pf']) / length
-    avg_home_power = sum(home_load_values['power']) / length
-    avg_home_current = sum(home_load_values['current']) / length
+    avg_ct_delta_power = sum(ct_delta_load_values['power']) / length
+    avg_ct_delta_current = sum(ct_delta_load_values['current']) / length
     avg_net_power = sum(net_power_values['power']) / length
     avg_net_current = sum(net_power_values['current']) / length
     ct0_avg_power = sum(ct0_dict['power']) / length
@@ -199,7 +199,7 @@ def write_to_influx(solar_power_values, home_load_values, net_power_values, ct0_
     avg_voltage = sum(voltages) / length
 
     # Create Points
-    home_load = Point('home_load', power=avg_home_power, current=avg_home_current, tariff=current_tariff, time=poll_time)
+    ct_delta_load = Point('ct_delta_load', power=avg_ct_delta_power, current=avg_ct_delta_current, tariff=current_tariff, time=poll_time)
     solar = Point('solar', power=avg_solar_power, current=avg_solar_current, pf=avg_solar_pf, time=poll_time)
     net = Point('net', power=avg_net_power, current=avg_net_current, time=poll_time)
     ct0 = Point('ct', power=ct0_avg_power, current=ct0_avg_current, pf=ct0_avg_pf, tariff=current_tariff, time=poll_time, num=0)
@@ -211,7 +211,7 @@ def write_to_influx(solar_power_values, home_load_values, net_power_values, ct0_
     v = Point('voltage', voltage=avg_voltage, v_input=0, time=poll_time)
 
     points = [
-        home_load.to_dict(),
+        ct_delta_load.to_dict(),
         solar.to_dict(),
         net.to_dict(),
         ct0.to_dict(),
