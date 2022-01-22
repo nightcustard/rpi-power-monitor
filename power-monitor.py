@@ -406,7 +406,7 @@ def run_main():
     logger.info("Press Ctrl-c to quit...")
     # The following empty dictionaries will hold the respective calculated values at the end of each polling cycle, which are then averaged prior to storing the value to the DB.
     solar_power_values = dict(power=[], pf=[], current=[])
-    residual_load_values = dict(power=[], pf=[], current=[])
+    home_load_values = dict(power=[], pf=[], current=[])
     net_power_values = dict(power=[], current=[])
     ct0_dict = dict(power=[], pf=[], current=[])
     ct1_dict = dict(power=[], pf=[], current=[])
@@ -482,14 +482,14 @@ def run_main():
                 solar_current = solar_current * -1
 
             # Unless your specific panel setup matches mine exactly, the following four lines will likely need to be re-written:
-           # residual_power = grid_0_power + grid_1_power + grid_2_power + grid_3_power + grid_4_power + grid_5_power + solar_power
-            residual_power = grid_0_power - grid_1_power - grid_2_power - grid_3_power - grid_4_power - grid_5_power
-           # net_power = residual_power - solar_power
-            net_power = residual_power
-           # residual_current = grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current - solar_current
-            residual_current = grid_0_current -  grid_1_current - grid_2_current - grid_3_current - grid_4_current - grid_5_current
-           # netresidual_load= grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current + solar_current
-            net_current = residual_current
+           # home_power = grid_0_power + grid_1_power + grid_2_power + grid_3_power + grid_4_power + grid_5_power + solar_power
+            home_power = grid_0_power - grid_1_power - grid_2_power - grid_3_power - grid_4_power - grid_5_power
+           # net_power = home_power - solar_power
+            net_power = home_power
+           # home_current = grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current - solar_current
+            home_current = grid_0_current -  grid_1_current - grid_2_current - grid_3_current - grid_4_current - grid_5_current
+           # net_load= grid_0_current + grid_1_current + grid_2_current + grid_3_current + grid_4_current + grid_5_current + solar_current
+            net_current = home_current
 
             if net_power < 0:
                 current_status = "Producing"                                
@@ -502,8 +502,8 @@ def run_main():
                 solar_power_values['current'].append(solar_current)
                 solar_power_values['pf'].append(solar_pf)
 
-                residual_load_values['power'].append(residual_power)
-                residual_load_values['current'].append(residual_current)
+                home_load_values['power'].append(home_power)
+                home_load_values['current'].append(home_current)
                 net_power_values['power'].append(net_power)
                 net_power_values['current'].append(net_current)
                 
@@ -532,7 +532,7 @@ def run_main():
             else:   # Calculate the average, send the result to InfluxDB, and reset the dictionaries for the next 2 sets of data.
                 infl.write_to_influx(
                     solar_power_values,
-                    residual_load_values,
+                    home_load_values,
                     net_power_values, 
                     ct0_dict,
                     ct1_dict,
@@ -546,7 +546,7 @@ def run_main():
                     current_tariff,
                     )
                 solar_power_values = dict(power=[], pf=[], current=[])
-                residual_load_values = dict(power=[], pf=[], current=[])
+                home_load_values = dict(power=[], pf=[], current=[])
                 net_power_values = dict(power=[], current=[])
                 ct0_dict = dict(power=[], pf=[], current=[])
                 ct1_dict = dict(power=[], pf=[], current=[])
