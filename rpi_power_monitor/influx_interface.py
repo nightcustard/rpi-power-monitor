@@ -19,6 +19,7 @@ class Point:
         if p_type == 'home_load':
             self.power = kwargs['power']
             self.current = kwargs['current']
+            self.tariff  = kwargs['tariff']
             self.p_type = p_type
             self.time = kwargs['time']
         
@@ -56,6 +57,7 @@ class Point:
             self.p_type = p_type
             self.pf = kwargs['pf']
             self.ct_num = kwargs['num']
+            self.tariff  = kwargs['tariff']
             self.time = kwargs['time']
 
         elif p_type == 'voltage':
@@ -75,7 +77,8 @@ class Point:
                 "measurement": 'home_load',
                 "fields": {
                     "current": self.current,
-                    "power": self.power
+                    "power": self.power,
+                    "tariff" : self.tariff,
                 },
                 "time": self.time
             }
@@ -115,6 +118,7 @@ class Point:
                     "current": self.current,
                     "power": self.power,
                     "pf": self.pf,
+                    "tariff" : self.tariff,
                 },
                 "tags": {
                     "ct": self.ct_num
@@ -167,7 +171,8 @@ def write_to_influx(solar_power_values,
                     ct6_dict,
                     poll_time,
                     length,
-                    voltages):
+                    voltages
+                    current_tariff):
     # Calculate Averages
     avg_solar_power = sum(solar_power_values['power']) / length
     avg_solar_current = sum(solar_power_values['current']) / length
@@ -197,15 +202,15 @@ def write_to_influx(solar_power_values,
     avg_voltage = sum(voltages) / length
 
     # Create Points
-    home_load = Point('home_load', power=avg_home_power, current=avg_home_current, time=poll_time)
+    home_load = Point('home_load', power=avg_home_power, current=avg_home_current, tariff=current_tariff, time=poll_time)
     solar = Point('solar', power=avg_solar_power, current=avg_solar_current, pf=avg_solar_pf, time=poll_time)
     net = Point('net', power=avg_net_power, current=avg_net_current, time=poll_time)
-    ct1 = Point('ct', power=ct1_avg_power, current=ct1_avg_current, pf=ct1_avg_pf, time=poll_time, num=1)
-    ct2 = Point('ct', power=ct2_avg_power, current=ct2_avg_current, pf=ct2_avg_pf, time=poll_time, num=2)
-    ct3 = Point('ct', power=ct3_avg_power, current=ct3_avg_current, pf=ct3_avg_pf, time=poll_time, num=3)
-    ct4 = Point('ct', power=ct4_avg_power, current=ct4_avg_current, pf=ct4_avg_pf, time=poll_time, num=4)
-    ct5 = Point('ct', power=ct5_avg_power, current=ct5_avg_current, pf=ct5_avg_pf, time=poll_time, num=5)
-    ct6 = Point('ct', power=ct6_avg_power, current=ct6_avg_current, pf=ct6_avg_pf, time=poll_time, num=6)
+    ct1 = Point('ct', power=ct1_avg_power, current=ct1_avg_current, pf=ct1_avg_pf, tariff=current_tariff, time=poll_time, num=1)
+    ct2 = Point('ct', power=ct2_avg_power, current=ct2_avg_current, pf=ct2_avg_pf, tariff=current_tariff, time=poll_time, num=2)
+    ct3 = Point('ct', power=ct3_avg_power, current=ct3_avg_current, pf=ct3_avg_pf, tariff=current_tariff, time=poll_time, num=3)
+    ct4 = Point('ct', power=ct4_avg_power, current=ct4_avg_current, pf=ct4_avg_pf, tariff=current_tariff, time=poll_time, num=4)
+    ct5 = Point('ct', power=ct5_avg_power, current=ct5_avg_current, pf=ct5_avg_pf, tariff=current_tariff, time=poll_time, num=5)
+    ct6 = Point('ct', power=ct6_avg_power, current=ct6_avg_current, pf=ct6_avg_pf, tariff=current_tariff, time=poll_time, num=6)
     v = Point('voltage', voltage=avg_voltage, v_input=0, time=poll_time)
 
     points = [
