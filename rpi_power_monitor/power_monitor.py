@@ -26,7 +26,12 @@ from rpi_power_monitor.config import GRID_VOLTAGE
 from rpi_power_monitor.config import db_settings
 from rpi_power_monitor.config import logger
 from rpi_power_monitor.plotting import plot_data
+import RPi.GPIO as GPIO # for tariff detection (NOTE: requires 'pip install RPi.GPIO' to install the package)
 
+# tariff detection set-up
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(17, GPIO.IN, pull_up_down = GPIO.PUD_UP) # detects night rate power via voltage connected to GPIO 17 
 
 class RPiPowerMonitor:
     """ Class to take readings from the MCP3008 and calculate power """
@@ -82,6 +87,12 @@ class RPiPowerMonitor:
         avg_reading = sum(samples) / len(samples)
         board_voltage = (avg_reading / 1024) * 3.31 * 2
         return board_voltage
+    
+    def get_tariff(self):
+    # Check status of GPIO 17: if LOW, the night rate is active
+    if GPIO.input(17): tariff = day_rate
+    else: tariff = night_rate
+    return tariff
 
     def read_adc(self, adc_num):
         """ Read SPI data from the MCP3008, 8 channels in total. """
@@ -500,6 +511,7 @@ class RPiPowerMonitor:
         while True:
             try:
                 board_voltage = self.get_board_voltage()
+                current_tariff = self.get_tariff()
                 samples = self.collect_data(2000)
                 poll_time = samples['time']
 
@@ -636,7 +648,8 @@ class RPiPowerMonitor:
                         ct6_dict,
                         poll_time,
                         i,
-                        rms_voltages)
+                        rms_voltages,
+                        current_tariff,)
                     solar_power_values = dict(power=[], pf=[], current=[])
                     home_load_values = dict(power=[], pf=[], current=[])
                     net_power_values = dict(power=[], current=[])
