@@ -25,8 +25,8 @@ from rpi_power_monitor.config import CT_PHASE_CORRECTION
 from rpi_power_monitor.config import GRID_VOLTAGE
 from rpi_power_monitor.config import db_settings
 from rpi_power_monitor.config import logger
-from rpi_power_monitor.config import day_rate
-from rpi_power_monitor.config import night_rate
+from rpi_power_monitor.config import DAY_RATE
+from rpi_power_monitor.config import NIGHT_RATE
 from rpi_power_monitor.plotting import plot_data
 import RPi.GPIO as GPIO # for tariff detection (NOTE: requires 'pip install RPi.GPIO' to install the package)
 
@@ -92,8 +92,8 @@ class RPiPowerMonitor:
     
     def get_tariff(self):
     # Check status of GPIO 17: if LOW, the night rate is active
-        if GPIO.input(17): tariff = day_rate
-        else: tariff = night_rate
+        if GPIO.input(17): tariff = DAY_RATE
+        else: tariff = NIGHT_RATE
         return tariff
 
     def read_adc(self, adc_num):
