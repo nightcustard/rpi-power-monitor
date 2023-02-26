@@ -16,7 +16,7 @@ GRID_VOLTAGE = 124.2
 
 # Using a multimeter, measure the output voltage of your AC transformer. Using the value on the label is
 # not ideal and will lead to greater accuracy in the calculations.
-AC_TRANSFORMER_OUTPUT_VOLTAGE = 10.2
+AC_TRANSFORMER_OUTPUT_VOLTAGE = 27.71
 
 # Define Variables
 NIGHT_RATE = 0.1187         # £ per kWh (as of Dec 2021)
