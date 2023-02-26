@@ -92,9 +92,9 @@ class RPiPowerMonitor:
     
     def get_tariff(self):
     # Check status of GPIO 17: if LOW, the night rate is active
-    if GPIO.input(17): tariff = day_rate
-    else: tariff = night_rate
-    return tariff
+        if GPIO.input(17): tariff = day_rate
+        else: tariff = night_rate
+        return tariff
 
     def read_adc(self, adc_num):
         """ Read SPI data from the MCP3008, 8 channels in total. """
