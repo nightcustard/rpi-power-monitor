@@ -40,7 +40,7 @@ ADC_CHANNELS = {
     'ct5_channel': 6,            # 'CT5' Hot tub
     'ct6_channel': 7,            # 'CT6' Lights
     'board_voltage_channel': 4,  # Board voltage ~3.3V
-    'v_sensor_channel': 5        # 28AC Voltage channel
+    'v_sensor_channel': 5        # 28AC Voltage channel 
 }
 
 # The values from running the software in "phase" mode should go below!
