@@ -33,34 +33,34 @@ db_settings = {
 
 # ADC pins/channels
 ADC_CHANNELS = {
-    'ct1_channel': 0,
-    'ct2_channel': 1,
-    'ct3_channel': 2,
-    'ct4_channel': 3,
-    'ct5_channel': 6,
-    'ct6_channel': 7,
-    'board_voltage_channel': 4,
-    'v_sensor_channel': 5
+    'ct1_channel': 0,            # 'CT1' House main 100A
+    'ct2_channel': 1,            # 'CT2' F1 32A Sockets: kitchen; garden room; outside socket
+    'ct3_channel': 2,            # 'CT3' F6 32A Sockets: office; craft room; Lou's room
+    'ct4_channel': 3,            # 'CT4' F12 32A Sockets: hall; front room; master bedroom; back bedroom; garage
+    'ct5_channel': 6,            # 'CT5' Hot tub
+    'ct6_channel': 7,            # 'CT6' Lights
+    'board_voltage_channel': 4,  # Board voltage ~3.3V
+    'v_sensor_channel': 5        # 28AC Voltage channel
 }
 
 # The values from running the software in "phase" mode should go below!
 CT_PHASE_CORRECTION = {
-    'ct1': 1,
-    'ct2': 1,
-    'ct3': 1,
-    'ct4': 1,
-    'ct5': 1,
-    'ct6': 1,
+    'ct1': 1.03307871,
+    'ct2': 1.06106079,
+    'ct3': 1.16228187,
+    'ct4': 1.37349277,
+    'ct5': 1.04173608,
+    'ct6': 1.5333161,
 }
 
 # AFTER phase correction is completed, these values are used in the final calibration for accuracy.
 # See the documentation for more information.
 ACCURACY_CALIBRATION = {
-    'ct1': 1,
-    'ct2': 1,
-    'ct3': 1,
-    'ct4': 1,
-    'ct5': 1,
-    'ct6': 1,
-    'AC': 1,
+    'ct1': 0.91265,
+    'ct2': 0.34887,
+    'ct3': 0.34939,
+    'ct4': 0.34545,
+    'ct5': 0.34568,
+    'ct6': 0.35085,
+    'AC': 3.32114,
 }
