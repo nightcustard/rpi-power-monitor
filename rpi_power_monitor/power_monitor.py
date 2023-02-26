@@ -25,6 +25,8 @@ from rpi_power_monitor.config import CT_PHASE_CORRECTION
 from rpi_power_monitor.config import GRID_VOLTAGE
 from rpi_power_monitor.config import db_settings
 from rpi_power_monitor.config import logger
+from rpi_power_monitor.config import day_rate
+from rpi_power_monitor.config import night_rate
 from rpi_power_monitor.plotting import plot_data
 import RPi.GPIO as GPIO # for tariff detection (NOTE: requires 'pip install RPi.GPIO' to install the package)
 
