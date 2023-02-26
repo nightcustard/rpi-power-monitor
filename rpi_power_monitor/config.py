@@ -12,7 +12,7 @@ logger.addHandler(ch)
 
 # Using a multimeter, measure the voltage of the receptacle where your 9V AC transformer will plug into.
 # Enter the measured value below.
-GRID_VOLTAGE = 124.2
+GRID_VOLTAGE = 247.4
 
 # Using a multimeter, measure the output voltage of your AC transformer. Using the value on the label is
 # not ideal and will lead to greater accuracy in the calculations.
