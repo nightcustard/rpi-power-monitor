@@ -171,7 +171,7 @@ def write_to_influx(solar_power_values,
                     ct6_dict,
                     poll_time,
                     length,
-                    voltages
+                    voltages,
                     current_tariff):
     # Calculate Averages
     avg_solar_power = sum(solar_power_values['power']) / length
