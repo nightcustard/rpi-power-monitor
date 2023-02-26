@@ -19,8 +19,8 @@ GRID_VOLTAGE = 124.2
 AC_TRANSFORMER_OUTPUT_VOLTAGE = 10.2
 
 # Define Variables
-night_rate = 0.1187         # £ per kWh (as of Dec 2021)
-day_rate = 0.2126           # £ per kWh (as of Dec 2021)
+NIGHT_RATE = 0.1187         # £ per kWh (as of Dec 2021)
+DAY_RATE = 0.2126           # £ per kWh (as of Dec 2021)
 
 # InfluxDB Settings
 db_settings = {
