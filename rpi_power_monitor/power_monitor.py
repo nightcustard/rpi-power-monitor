@@ -589,15 +589,15 @@ class RPiPowerMonitor:
                 # Unless your specific panel setup matches mine exactly,
                 # the following four lines will likely need to be re-written:
                 home_consumption_power = (
-                        grid_1_power + grid_2_power + grid_3_power +
-                        grid_4_power + grid_5_power + grid_6_power + solar_power)
-                net_power = home_consumption_power - solar_power
+                        grid_2_power + grid_3_power +
+                        grid_4_power + grid_5_power + grid_6_power)
+                net_power = home_consumption_power
                 home_consumption_current = (
-                        grid_1_current + grid_2_current + grid_3_current +
-                        grid_4_current + grid_5_current + grid_6_current - solar_current)
+                        grid_2_current + grid_3_current +
+                        grid_4_current + grid_5_current + grid_6_current)
                 net_current = (
-                        grid_1_current + grid_2_current + grid_3_current +
-                        grid_4_current + grid_5_current + grid_6_current + solar_current)
+                        grid_2_current + grid_3_current +
+                        grid_4_current + grid_5_current + grid_6_current)
 
                 # if net_power < 0:
                 #     current_status = "Producing"
